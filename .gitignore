@@ -1,51 +1,37 @@
-# Python bytecode
+# === Python Core ===
 __pycache__/
 *.py[cod]
 *$py.class
+.Python
 
-# Virtual environments
+# === Environments & Packages ===
+.venv/
 venv/
 env/
-.venv/
-.tox/
-
-# Distribution / packaging
+.env/
 build/
 dist/
 *.egg-info/
-*.egg
+.tox/
 
-# Pytest & Coverage
+# === Testing & Quality Control (Pytest, Coverage, Tox) ===
 .pytest_cache/
 .coverage
 coverage.xml
 htmlcov/
+.cache/
 
-# Type Checking (mypy)
+# === Static Analysis (Ruff, Mypy) ===
+.ruff_cache/
 .mypy_cache/
 .dmypy.json
 dmypy.json
 
-# Environment Variables 
-.env
-.env.local
-.env.*.local
-
-# IDEs
+# === IDEs & OS ===
 .vscode/
 .idea/
-
-# Logs
-*.log
-
-# Operating System Files
-# Windows
-Thumbs.db
-Desktop.ini
-$RECYCLE.BIN/
-
-# macOS
 .DS_Store
+Thumbs.db
 
-# Jupyter Notebooks
-.ipynb_checkpoints
+# === Secrets ===
+.env
