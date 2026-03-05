@@ -45,7 +45,7 @@ This repository is a high-standard educational ecosystem dedicated to the implem
 
 Follow these steps to set up the project locally for development and testing. These instructions cover **macOS**, **Linux**, and **Windows**.
 
-### 1. Clone & Environment Setup
+### 1. Clone
 
 Start by cloning the repository to your local machine and navigating into the project directory.
 
@@ -63,13 +63,13 @@ It is highly recommended to use a virtual environment to keep dependencies isola
 **Create a virtual environment**
 
 ```powershell
-python -m venv venv
+python -m venv .venv
 ```
 
 **Activate the environment**
 
 ```powershell
-.\venv\Scripts\Activate.ps1
+.\.venv\Scripts\Activate.ps1
 ```
 
 #### macOS / Linux
@@ -77,7 +77,7 @@ python -m venv venv
 **Create a virtual environment**
 
 ```bash
-python3 -m venv venv
+python3 -m venv .venv
 ```
 
 **Activate the environment**
