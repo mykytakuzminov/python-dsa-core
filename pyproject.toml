@@ -1,30 +1,44 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["uv_build>=0.10.11,<0.11.0"]
+build-backend = "uv_build"
 
 [project]
-name = "data-structures-and-algorithms"
-version = "0.2.0"
+name = "dsa"
+version = "0.3.0"
+description = "Fundamental data structures and algorithms in Python"
+readme = "README.md"
+authors = [
+    { name = "Mykyta Kuzminov", email = "mykytakuzminov@gmail.com" }
+]
 requires-python = ">=3.14"
-dependencies = [
-    "pytest==8.4.2",
-    "mypy==1.18.2",
-    "ruff==0.9.0",
-    "tox==4.32.0",
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "mypy>=1.19.1",
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
+    "ruff>=0.15.7",
+    "tox>=4.50.3",
+    "tox-uv>=1.0",
 ]
 
 [tool.ruff]
 line-length = 88
-src = ["src", "tests"]
+target-version = "py314"
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "W"]
-ignore = ["E203"]
+select = ["E", "W", "F", "I", "UP", "B", "C4", "SIM", "PT", "RUF"]
+ignore = ["E501"]
 
-[tool.ruff.lint.per-file-ignores]
-"__init__.py" = ["F401"]
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
 
 [tool.mypy]
+strict = true
 python_version = "3.14"
-disallow_untyped_defs = true
-ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=src/dsa --cov-report=term-missing"
