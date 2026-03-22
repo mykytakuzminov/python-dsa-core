@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-from typing import Generic, Iterator, Optional, TypeVar
+from collections.abc import Iterator
+from typing import TypeVar
 
 T = TypeVar("T")
 
 
-class Node(Generic[T]):
+class Node[T]:
     """
     Node class for a doubly linked list.
 
@@ -14,9 +15,10 @@ class Node(Generic[T]):
         next: Pointer to the next node in the list.
         prev: Pointer to the previous node in the list.
     """
+
     value: T
-    next: Optional[Node[T]]
-    prev: Optional[Node[T]]
+    next: Node[T] | None
+    prev: Node[T] | None
 
     def __init__(self, value: T) -> None:
         """Initialize a node with a given value."""
@@ -29,7 +31,7 @@ class Node(Generic[T]):
         return f"Node({self.value})"
 
 
-class DoublyLinkedList(Generic[T]):
+class DoublyLinkedList[T]:
     """
     Doubly Linked List implementation.
 
@@ -38,8 +40,9 @@ class DoublyLinkedList(Generic[T]):
         _tail: Reference to the last node in the list.
         _length: Total number of nodes in the list.
     """
-    _head: Optional[Node[T]]
-    _tail: Optional[Node[T]]
+
+    _head: Node[T] | None
+    _tail: Node[T] | None
     _length: int
 
     def __init__(self) -> None:
@@ -208,10 +211,7 @@ class DoublyLinkedList(Generic[T]):
         Returns:
             True if the element is found, False otherwise.
         """
-        for value in self:
-            if value == key:
-                return True
-        return False
+        return any(value == key for value in self)
 
     def get(self, index: int) -> T:
         """
@@ -287,10 +287,10 @@ class DoublyLinkedList(Generic[T]):
             raise IndexError("Index out of range")
         return current
 
-    def _get_head(self) -> Node | None:
+    def _get_head(self) -> Node[T] | None:
         """Return the head node (for internal testing)."""
         return self._head
 
-    def _get_tail(self) -> Node | None:
+    def _get_tail(self) -> Node[T] | None:
         """Return the tail node (for internal testing)."""
         return self._tail

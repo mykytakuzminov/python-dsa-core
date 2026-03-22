@@ -1,5 +1,6 @@
 import pytest
-from src.data_structures.heaps.heap import MaxHeap, MinHeap
+
+from dsa import MaxHeap, MinHeap
 
 # --- Constants ---
 TEST_DATA_INPUT = [12, -3, 7, 12, -10, 0, 25, 8, 5, -2]
@@ -139,5 +140,7 @@ def test_clear(populated_max, populated_min):
     """Verify clear() resets both heap types."""
     populated_max.clear()
     populated_min.clear()
-    assert len(populated_max) == 0 and populated_max.is_empty
-    assert len(populated_min) == 0 and populated_min.is_empty
+    assert len(populated_max) == 0
+    assert populated_max.is_empty
+    assert len(populated_min) == 0
+    assert populated_min.is_empty

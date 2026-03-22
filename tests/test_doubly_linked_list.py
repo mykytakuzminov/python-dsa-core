@@ -1,9 +1,10 @@
 import pytest
-from src.data_structures.linked_lists.doubly_linked_list import DoublyLinkedList
+
+from dsa import DoublyLinkedList
 
 # --- Constants ---
 NUM_ELEMENTS = 5
-TEST_DATA = [n for n in range(5)]
+TEST_DATA = list(range(5))
 NEW_HEAD = 99
 NEW_MIDDLE = 55
 NEW_TAIL = 100
@@ -58,7 +59,7 @@ def test_prepend(empty_list, populated_list):
     assert empty_list._get_tail().value == NEW_HEAD
 
     populated_list.prepend(NEW_HEAD)
-    assert list(populated_list) == [NEW_HEAD] + TEST_DATA
+    assert list(populated_list) == [NEW_HEAD, *TEST_DATA]
     assert len(populated_list) == NUM_ELEMENTS + 1
     assert populated_list._get_head().value == NEW_HEAD
     assert populated_list._get_tail().value == TEST_DATA[-1]
@@ -68,7 +69,7 @@ def test_insert(populated_list):
     """Test insert() at head, middle, and tail positions."""
     # Insert at head
     populated_list.insert(0, NEW_HEAD)
-    assert list(populated_list)[0] == NEW_HEAD
+    assert next(iter(populated_list)) == NEW_HEAD
 
     # Insert at middle
     middle_index = NUM_ELEMENTS // 2
@@ -177,7 +178,7 @@ def test_peek_back_index_error(empty_list):
 
 
 # --- Tests: Accessing Elements ---
-@pytest.mark.parametrize("index,expected", PARAM_DATA)
+@pytest.mark.parametrize(("index", "expected"), PARAM_DATA)
 def test_get(populated_list, index, expected):
     """Test get() returns correct element for valid indices."""
     assert populated_list.get(index) == expected

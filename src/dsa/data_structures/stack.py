@@ -1,17 +1,19 @@
 from __future__ import annotations
 
-from typing import Generic, Iterator, TypeVar
+from collections.abc import Iterator
+from typing import TypeVar
 
 T = TypeVar("T")
 
 
-class Stack(Generic[T]):
+class Stack[T]:
     """
     Stack data structure implemented using a dynamic array (Python list).
 
     Attributes:
         _items: Internal list to store stack elements.
     """
+
     _items: list[T]
 
     def __init__(self) -> None:

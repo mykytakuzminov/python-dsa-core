@@ -1,5 +1,6 @@
 import pytest
-from src.data_structures.hash_tables.hash_map import HashMap
+
+from dsa import HashMap
 
 # --- Constants ---
 NUM_ELEMENTS = 10
@@ -8,12 +9,20 @@ KEY_10 = 10
 NEW_VALUE = 100
 
 TEST_PAIRS = [
-    (0, 0), (8, 8), (1, 1), (9, 9), (2, 2),
-    (3, 3), (4, 4), (5, 5), (6, 6), (7, 7)
+    (0, 0),
+    (8, 8),
+    (1, 1),
+    (9, 9),
+    (2, 2),
+    (3, 3),
+    (4, 4),
+    (5, 5),
+    (6, 6),
+    (7, 7),
 ]
 
 # Set is used because HashMap order is not guaranteed
-SET_OF_TEST_PAIRS = set([f"{k}: {v}" for k, v in TEST_PAIRS])
+SET_OF_TEST_PAIRS = {f"{k}: {v}" for k, v in TEST_PAIRS}
 
 
 # --- Fixtures ---
@@ -70,7 +79,7 @@ def test_put_collision(empty_hash_map):
 
 
 # --- Tests: Retrieving Values ---
-@pytest.mark.parametrize("key,value", TEST_PAIRS)
+@pytest.mark.parametrize(("key", "value"), TEST_PAIRS)
 def test_get_existing(populated_hash_map, key, value):
     """Check get() returns correct value for existing keys."""
     assert populated_hash_map.get(key) == value
@@ -93,14 +102,14 @@ def test_keys(populated_hash_map):
     """Check keys() returns a list of all keys."""
     keys = populated_hash_map.keys()
     assert len(keys) == NUM_ELEMENTS
-    assert set(keys) == set(k for k, v in TEST_PAIRS)
+    assert set(keys) == {k for k, _ in TEST_PAIRS}
 
 
 def test_values(populated_hash_map):
     """Check values() returns a list of all values."""
     values = populated_hash_map.values()
     assert len(values) == NUM_ELEMENTS
-    assert set(values) == set(v for k, v in TEST_PAIRS)
+    assert set(values) == {v for _, v in TEST_PAIRS}
 
 
 # --- Tests: Removing Keys ---
@@ -139,9 +148,6 @@ def test_str(empty_hash_map, populated_hash_map):
 
     # Parse string back to set of strings to verify content regardless of order
     result_str = str(populated_hash_map).strip("{}")
-    if result_str:
-        actual_pairs = set(result_str.split(", "))
-    else:
-        actual_pairs = set()
+    actual_pairs = set(result_str.split(", ")) if result_str else set()
 
     assert actual_pairs == SET_OF_TEST_PAIRS

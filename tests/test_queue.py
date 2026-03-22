@@ -1,9 +1,10 @@
 import pytest
-from src.data_structures.queues.queue import Queue
+
+from dsa import Queue
 
 # --- Constants ---
 NUM_ELEMENTS = 5
-TEST_DATA = [n for n in range(NUM_ELEMENTS)]
+TEST_DATA = list(range(NUM_ELEMENTS))
 
 
 # --- Fixtures ---

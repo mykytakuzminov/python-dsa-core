@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from typing import Any, Generic, Protocol, TypeVar
+from typing import Any, Protocol, TypeVar
 
-from src.data_structures.queues.queue import Queue
-from src.data_structures.stacks.stack import Stack
+from .queue import Queue
+from .stack import Stack
 
 
 class Comparable(Protocol):
@@ -14,7 +14,7 @@ class Comparable(Protocol):
 T = TypeVar("T", bound=Comparable)
 
 
-class Node(Generic[T]):
+class Node[T: Comparable]:
     """
     A node in a graph.
 
@@ -22,6 +22,7 @@ class Node(Generic[T]):
         value: The data stored in the node.
         neighbors: A set of references to neighboring Node objects.
     """
+
     value: T
     neighbors: set[Node[T]]
 
@@ -35,13 +36,14 @@ class Node(Generic[T]):
         return f"Node({self.value})"
 
 
-class Graph(Generic[T]):
+class Graph[T: Comparable]:
     """
     Graph implementation using an adjacency list.
 
     Attributes:
         _adj_list: Dictionary mapping values to their corresponding Node objects.
     """
+
     _adj_list: dict[T, Node[T]]
 
     def __init__(self) -> None:
@@ -178,8 +180,8 @@ class Graph(Generic[T]):
         if start_value not in self._adj_list:
             return []
 
-        visited_order = []
-        visited = {start_value}
+        visited_order: list[T] = []
+        visited: set[T] = {start_value}
         queue: Queue[Node[T]] = Queue()
         queue.enqueue(self._adj_list[start_value])
 
@@ -208,8 +210,8 @@ class Graph(Generic[T]):
         if start_value not in self._adj_list:
             return []
 
-        visited_order = []
-        visited = set()
+        visited_order: list[T] = []
+        visited: set[T] = set()
         stack: Stack[Node[T]] = Stack()
         stack.push(self._adj_list[start_value])
 
@@ -222,9 +224,7 @@ class Graph(Generic[T]):
 
                 # Reverse sort neighbors to maintain left-to-right order in stack
                 sorted_neighbors = sorted(
-                    current_node.neighbors,
-                    key=lambda x: x.value,
-                    reverse=True
+                    current_node.neighbors, key=lambda x: x.value, reverse=True
                 )
 
                 for neighbor in sorted_neighbors:

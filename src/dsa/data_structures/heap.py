@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from typing import Any, Generic, Iterator, Protocol, TypeVar
+from collections.abc import Iterator
+from typing import Any, Protocol, TypeVar
 
 
 class Comparable(Protocol):
@@ -11,13 +12,14 @@ class Comparable(Protocol):
 T = TypeVar("T", bound=Comparable)
 
 
-class Heap(Generic[T]):
+class Heap[T: Comparable]:
     """
     Base Heap implementation using a dynamic array.
 
     Attributes:
         _heap: Internal list representing the heap's complete binary tree.
     """
+
     _heap: list[T]
 
     def __init__(self) -> None:
@@ -111,7 +113,7 @@ class Heap(Generic[T]):
             A list of elements sorted according to the heap's priority.
         """
         original_state = self._heap[:]
-        result = []
+        result: list[T] = []
         try:
             while not self.is_empty:
                 result.append(self.pop())

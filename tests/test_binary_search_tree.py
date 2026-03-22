@@ -1,5 +1,6 @@
 import pytest
-from src.data_structures.trees.binary_search_tree import BinarySearchTree
+
+from dsa import BinarySearchTree
 
 # --- Constants ---
 #  Tree Structure
@@ -11,9 +12,9 @@ from src.data_structures.trees.binary_search_tree import BinarySearchTree
 
 TEST_DATA_INPUT = [50, 30, 20, 40, 70, 60, 80]
 
-EXPECTED_INORDER = [20, 30, 40, 50, 60, 70, 80]      # Sorted
-EXPECTED_PREORDER = [50, 30, 20, 40, 70, 60, 80]     # Root -> Left -> Right
-EXPECTED_POSTORDER = [20, 40, 30, 60, 80, 70, 50]    # Left -> Right -> Root
+EXPECTED_INORDER = [20, 30, 40, 50, 60, 70, 80]  # Sorted
+EXPECTED_PREORDER = [50, 30, 20, 40, 70, 60, 80]  # Root -> Left -> Right
+EXPECTED_POSTORDER = [20, 40, 30, 60, 80, 70, 50]  # Left -> Right -> Root
 EXPECTED_LEVEL_ORDER = [50, 30, 70, 20, 40, 60, 80]  # By levels
 
 TREE_SIZE = 7

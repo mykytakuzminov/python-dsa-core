@@ -1,12 +1,13 @@
 from __future__ import annotations
 
-from typing import Any, Generic, Iterator, Optional, TypeVar
+from collections.abc import Iterator
+from typing import Any, TypeVar
 
 K = TypeVar("K")
 V = TypeVar("V")
 
 
-class HashMap(Generic[K, V]):
+class HashMap[K, V]:
     """
     Hash Map implementation using chaining.
 
@@ -15,6 +16,7 @@ class HashMap(Generic[K, V]):
         _length: Number of key-value pairs stored.
         _buckets: List of buckets, each containing (key, value) pairs.
     """
+
     _capacity: int
     _length: int
     _buckets: list[list[tuple[K, V]]]
@@ -31,10 +33,10 @@ class HashMap(Generic[K, V]):
 
     def __repr__(self) -> str:
         """Return a string representation for debugging."""
-        pairs = []
+        pairs: list[str] = []
         for bucket in self._buckets:
             for k, v in bucket:
-                pairs.append(f"{repr(k)}: {repr(v)}")
+                pairs.append(f"{k!r}: {v!r}")
         content = ", ".join(pairs)
         return f"HashMap({{{content}}})"
 
@@ -42,10 +44,10 @@ class HashMap(Generic[K, V]):
         """Return a string representation like a Python dictionary."""
         if self.is_empty:
             return "{}"
-        pairs = []
+        pairs: list[str] = []
         for bucket in self._buckets:
             for k, v in bucket:
-                pairs.append(f"{repr(k)}: {repr(v)}")
+                pairs.append(f"{k!r}: {v!r}")
         return "{" + ", ".join(pairs) + "}"
 
     def __iter__(self) -> Iterator[K]:
@@ -112,7 +114,7 @@ class HashMap(Generic[K, V]):
 
     # --- Access Methods ---
 
-    def get(self, key: K) -> Optional[V]:
+    def get(self, key: K) -> V | None:
         """
         Return the value for the given key.
 
@@ -136,7 +138,7 @@ class HashMap(Generic[K, V]):
 
     def values(self) -> list[V]:
         """Return a list of all values in the map."""
-        all_values = []
+        all_values: list[V] = []
         for bucket in self._buckets:
             for _, v in bucket:
                 all_values.append(v)
@@ -148,7 +150,7 @@ class HashMap(Generic[K, V]):
         """Compute the bucket index for a given key."""
         return hash(key) % self._capacity
 
-    def _find_index_in_bucket(self, bucket_index: int, key: Any) -> Optional[int]:
+    def _find_index_in_bucket(self, bucket_index: int, key: Any) -> int | None:
         """
         Find the index of a key within a specific bucket.
 

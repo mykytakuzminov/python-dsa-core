@@ -1,14 +1,15 @@
 import pytest
-from src.data_structures.stacks.stack import Stack
+
+from dsa import Stack
 
 # --- Constants ---
 NUM_ELEMENTS = 5
-TEST_DATA = [n for n in range(NUM_ELEMENTS)]
+TEST_DATA = list(range(NUM_ELEMENTS))
 
 
 # --- Fixtures ---
 @pytest.fixture
-def empty_stack():
+def empty_stack() -> Stack:
     return Stack()
 
 

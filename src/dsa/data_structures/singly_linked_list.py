@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-from typing import Generic, Iterator, Optional, TypeVar
+from collections.abc import Iterator
+from typing import TypeVar
 
 T = TypeVar("T")
 
 
-class Node(Generic[T]):
+class Node[T]:
     """
     Node class for a singly linked list.
 
@@ -13,8 +14,9 @@ class Node(Generic[T]):
         value: The data stored in the node.
         next: Pointer to the next node in the list.
     """
+
     value: T
-    next: Optional[Node[T]]
+    next: Node[T] | None
 
     def __init__(self, value: T) -> None:
         """Initialize a node with a given value.."""
@@ -26,7 +28,7 @@ class Node(Generic[T]):
         return f"Node({self.value})"
 
 
-class SinglyLinkedList(Generic[T]):
+class SinglyLinkedList[T]:
     """
     Singly Linked List implementation.
 
@@ -34,7 +36,8 @@ class SinglyLinkedList(Generic[T]):
         _head: Reference to the first node in the list.
         _length: Total number of nodes in the list.
     """
-    _head: Optional[Node[T]]
+
+    _head: Node[T] | None
     _length: int
 
     def __init__(self) -> None:
@@ -174,10 +177,7 @@ class SinglyLinkedList(Generic[T]):
         Returns:
             True if the element is found, False otherwise.
         """
-        for value in self:
-            if value == key:
-                return True
-        return False
+        return any(value == key for value in self)
 
     def get(self, index: int) -> T:
         """

@@ -1,19 +1,21 @@
 from __future__ import annotations
 
-from typing import Generic, Iterator, TypeVar
+from collections.abc import Iterator
+from typing import TypeVar
 
-from src.data_structures.linked_lists.doubly_linked_list import DoublyLinkedList
+from .doubly_linked_list import DoublyLinkedList
 
 T = TypeVar("T")
 
 
-class Queue(Generic[T]):
+class Queue[T]:
     """
     Queue data structure implemented using a doubly linked list.
 
     Attributes:
         _items: Internal doubly linked list to store queue elements.
     """
+
     _items: DoublyLinkedList[T]
 
     def __init__(self) -> None:

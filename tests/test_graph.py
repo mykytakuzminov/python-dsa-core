@@ -1,5 +1,6 @@
 import pytest
-from src.data_structures.graphs.graph import Graph
+
+from dsa import Graph
 
 # --- Constants ---
 # Graph Structure
