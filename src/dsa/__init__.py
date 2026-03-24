@@ -16,6 +16,7 @@ from .algorithms import (
 from .data_structures import (
     BinarySearchTree,
     DoublyLinkedList,
+    DynamicArray,
     Graph,
     HashMap,
     MaxHeap,
@@ -28,6 +29,7 @@ from .data_structures import (
 __all__ = [
     "BinarySearchTree",
     "DoublyLinkedList",
+    "DynamicArray",
     "Graph",
     "HashMap",
     "MaxHeap",
