@@ -74,6 +74,49 @@ def test_insert_single(empty_tree):
     assert empty_tree.search(10)
 
 
+def test_delete_leaf(populated_tree):
+    assert populated_tree.delete(20)
+    assert not populated_tree.search(20)
+    assert len(populated_tree) == TREE_SIZE - 1
+    assert populated_tree.inorder() == [30, 40, 50, 60, 70, 80]
+
+
+def test_delete_node_with_one_child(populated_tree):
+    populated_tree.delete(20)
+    assert populated_tree.delete(30)
+    assert not populated_tree.search(30)
+    assert len(populated_tree) == TREE_SIZE - 2
+    assert populated_tree.inorder() == [40, 50, 60, 70, 80]
+
+
+def test_delete_node_with_two_children(populated_tree):
+    assert populated_tree.delete(50)
+    assert not populated_tree.search(50)
+    assert len(populated_tree) == TREE_SIZE - 1
+    assert populated_tree.inorder() == [20, 30, 40, 60, 70, 80]
+
+
+def test_delete_non_existent(populated_tree):
+    initial_len = len(populated_tree)
+    assert not populated_tree.delete(999)
+    assert len(populated_tree) == initial_len
+
+
+def test_clear(populated_tree):
+    populated_tree.clear()
+    assert populated_tree.is_empty
+    assert len(populated_tree) == 0
+    assert populated_tree._root is None
+
+
+def test_delete_root_single_node():
+    bt = BinarySearchTree()
+    bt.insert(10)
+    assert bt.delete(10)
+    assert bt.is_empty
+    assert len(bt) == 0
+
+
 def test_inorder_traversal(populated_tree, empty_tree):
     assert populated_tree.inorder() == EXPECTED_INORDER
     assert empty_tree.inorder() == []
