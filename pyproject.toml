@@ -4,7 +4,7 @@ build-backend = "uv_build"
 
 [project]
 name = "dsa"
-version = "0.3.0"
+version = "1.0.0"
 description = "Fundamental data structures and algorithms in Python"
 readme = "README.md"
 authors = [
@@ -48,4 +48,4 @@ ignore_errors = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--cov=src/dsa --cov-report=term-missing"
+addopts = "--cov=dsa --cov-report=term-missing"

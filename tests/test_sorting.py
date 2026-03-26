@@ -9,7 +9,6 @@ from dsa import (
     selection_sort,
 )
 
-# --- Constants ---
 STRING_TEST_CASES = [
     (["apple", "banana", "cherry", "date"], ["apple", "banana", "cherry", "date"]),
     (["date", "cherry", "banana", "apple"], ["apple", "banana", "cherry", "date"]),
@@ -41,59 +40,37 @@ COUNTING_SORT_TEST_CASES = [
 ]
 
 
-# --- Helper functions  ---
 def run_sort_test(sort_func, input_list, expected):
-    """
-    Executes an in-place sorting function on a copy of the input
-    list and asserts the result.
-
-    Args:
-        sort_func: The sorting function to test (e.g., bubble_sort).
-        input_list: The unsorted list to be copied and sorted.
-        expected: The list in its correctly sorted order.
-    """
     arr_copy = list(input_list)
     sort_func(arr_copy)
     assert arr_copy == expected
 
 
-# --- Tests: Comparison-Based Algorithms ---
 @pytest.mark.parametrize(("input_list", "expected"), BASE_TEST_CASES)
 def test_bubble_sort(input_list, expected):
-    """Tests the bubble_sort function across various data types and scenarios."""
     run_sort_test(bubble_sort, input_list, expected)
 
 
 @pytest.mark.parametrize(("input_list", "expected"), BASE_TEST_CASES)
 def test_insertion_sort(input_list, expected):
-    """Tests the insertion_sort function across various data types and scenarios."""
     run_sort_test(insertion_sort, input_list, expected)
 
 
 @pytest.mark.parametrize(("input_list", "expected"), BASE_TEST_CASES)
 def test_selection_sort(input_list, expected):
-    """Tests the selection_sort function across various data types and scenarios."""
     run_sort_test(selection_sort, input_list, expected)
 
 
 @pytest.mark.parametrize(("input_list", "expected"), BASE_TEST_CASES)
 def test_merge_sort(input_list, expected):
-    """Tests the merge_sort function across various data types and scenarios."""
     run_sort_test(merge_sort, input_list, expected)
 
 
 @pytest.mark.parametrize(("input_list", "expected"), BASE_TEST_CASES)
 def test_quick_sort(input_list, expected):
-    """Tests the quick_sort function across various data types and scenarios."""
     run_sort_test(quick_sort, input_list, expected)
 
 
-# --- Tests: Counting Sort (Non-Negative Integers only) ---
 @pytest.mark.parametrize(("input_list", "expected"), COUNTING_SORT_TEST_CASES)
 def test_counting_sort(input_list, expected):
-    """
-    Tests the counting_sort function.
-
-    Note: Counting Sort is specifically designed for non-negative integers.
-    """
     run_sort_test(counting_sort, input_list, expected)
