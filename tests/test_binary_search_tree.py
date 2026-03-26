@@ -2,7 +2,6 @@ import pytest
 
 from dsa import BinarySearchTree
 
-# --- Constants ---
 #  Tree Structure
 #        50
 #       /  \
@@ -21,44 +20,35 @@ TREE_SIZE = 7
 TREE_HEIGHT = 3
 
 
-# --- Fixtures ---
 @pytest.fixture
 def empty_tree():
-    """Return an empty Binary Tree."""
     return BinarySearchTree()
 
 
 @pytest.fixture
 def populated_tree():
-    """Return a Binary Tree populated with TEST_DATA_INPUT."""
     bt = BinarySearchTree()
     for val in TEST_DATA_INPUT:
         bt.insert(val)
     return bt
 
 
-# --- Tests: Basic Status ---
 def test_is_empty(empty_tree, populated_tree):
-    """Check is_empty() works correctly."""
     assert empty_tree.is_empty
     assert not populated_tree.is_empty
 
 
 def test_len(empty_tree, populated_tree):
-    """Check size() and __len__() methods."""
     assert len(empty_tree) == 0
     assert len(populated_tree) == TREE_SIZE
 
 
 def test_height(empty_tree, populated_tree):
-    """Check tree height calculation."""
     assert empty_tree.height() == 0
     assert populated_tree.height() == TREE_HEIGHT
 
 
-# --- Tests: Search ---
 def test_search_found(populated_tree):
-    """Check that search finds existing elements (root, leaf, middle)."""
     assert populated_tree.search(50)
     assert populated_tree.search(20)
     assert populated_tree.search(40)
@@ -66,48 +56,39 @@ def test_search_found(populated_tree):
 
 
 def test_search_not_found(populated_tree, empty_tree):
-    """Check that search returns False for missing elements."""
     assert not populated_tree.search(999)
     assert not populated_tree.search(0)
     assert not empty_tree.search(50)
 
 
-# --- Tests: Insert Logic ---
 def test_insert_duplicates(populated_tree):
-    """Check that inserting duplicates keeps size same."""
     populated_tree.insert(50)
     populated_tree.insert(20)
     assert len(populated_tree) == TREE_SIZE
 
 
 def test_insert_single(empty_tree):
-    """Check insertion into an empty tree."""
     empty_tree.insert(10)
     assert not empty_tree.is_empty
     assert empty_tree.height() == 1
     assert empty_tree.search(10)
 
 
-# --- Tests: Traversals ---
 def test_inorder_traversal(populated_tree, empty_tree):
-    """Inorder traversal should return sorted list."""
     assert populated_tree.inorder() == EXPECTED_INORDER
     assert empty_tree.inorder() == []
 
 
 def test_preorder_traversal(populated_tree, empty_tree):
-    """Preorder traversal validation."""
     assert populated_tree.preorder() == EXPECTED_PREORDER
     assert empty_tree.preorder() == []
 
 
 def test_postorder_traversal(populated_tree, empty_tree):
-    """Postorder traversal validation."""
     assert populated_tree.postorder() == EXPECTED_POSTORDER
     assert empty_tree.postorder() == []
 
 
 def test_bfs_traversal(populated_tree, empty_tree):
-    """Level order traversal validation."""
     assert populated_tree.bfs() == EXPECTED_LEVEL_ORDER
     assert empty_tree.bfs() == []

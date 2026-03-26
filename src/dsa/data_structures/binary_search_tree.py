@@ -1,7 +1,5 @@
-from __future__ import annotations
-
 from collections.abc import Iterator
-from typing import Any, Protocol, TypeVar
+from typing import Any, Protocol
 
 from .queue import Queue
 from .stack import Stack
@@ -15,58 +13,37 @@ class Comparable(Protocol):
     def __eq__(self, other: object, /) -> bool: ...
 
 
-T = TypeVar("T", bound=Comparable)
-
-
 class Node[T: Comparable]:
-    """
-    Represents a node in a Binary Search Tree.
-
-    Attributes:
-        value: The value stored in the node.
-        left: Reference to the left child node (smaller values).
-        right: Reference to the right child node (larger values).
-    """
+    """A BST node storing a value with references to left and right children."""
 
     value: T
     left: Node[T] | None
     right: Node[T] | None
 
     def __init__(self, value: T) -> None:
-        """Initialize a tree node."""
         self.value = value
         self.left = None
         self.right = None
 
     def __repr__(self) -> str:
-        """Return a string representation of the node."""
-        return f"Node({self.value})"
+        return f"{self.__class__.__name__}({self.value})"
 
 
 class BinarySearchTree[T: Comparable]:
-    """
-    Binary Search Tree (BST) implementation.
-
-    Attributes:
-        _root: The top-level node of the tree.
-    """
+    """Binary Search Tree with BFS, DFS, and all traversals."""
 
     _root: Node[T] | None
+    _count: int
 
     def __init__(self) -> None:
-        """Initialize an empty Binary Search Tree."""
         self._root = None
+        self._count = 0
 
     def __len__(self) -> int:
-        """Return the total number of nodes in the tree."""
-        return self._size(self._root)
-
-    def __repr__(self) -> str:
-        """Return a string representation of the tree."""
-        return f"BinarySearchTree({list(self)})"
+        return self._count
 
     def __iter__(self) -> Iterator[T]:
-        """Iterate over elements in sorted (inorder) order."""
+        # Iterative inorder traversal using an explicit stack
         stack: Stack[Node[T]] = Stack()
         current = self._root
 
@@ -79,41 +56,37 @@ class BinarySearchTree[T: Comparable]:
             yield current.value
             current = current.right
 
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({list(self)})"
+
+    def __str__(self) -> str:
+        return f"{list(self)}"
+
     @property
     def is_empty(self) -> bool:
-        """Check if the tree contains no nodes."""
         return self._root is None
 
-    # --- Modification Methods ---
-
     def insert(self, value: T) -> None:
-        """
-        Insert a new value into the BST.
-
-        Args:
-            value: The value to add.
-        """
         if self._root is None:
             self._root = Node(value)
+            self._count += 1
         else:
-            self._insert_recursive(self._root, value)
+            added = self._insert_recursive(self._root, value)
+            if added:
+                self._count += 1
+
+    def delete(self, value: T) -> bool:
+        if not self.search(value):
+            return False
+        self._root = self._delete_recursive(self._root, value)
+        self._count -= 1
+        return True
 
     def clear(self) -> None:
-        """Remove all nodes from the tree."""
         self._root = None
-
-    # --- Query & Search Methods ---
+        self._count = 0
 
     def search(self, value: T) -> bool:
-        """
-        Search for a value in the tree.
-
-        Args:
-            value: The value to find.
-
-        Returns:
-            True if found, False otherwise.
-        """
         current = self._root
         while current:
             if value == current.value:
@@ -122,23 +95,9 @@ class BinarySearchTree[T: Comparable]:
         return False
 
     def height(self) -> int:
-        """
-        Calculate the height of the tree.
-
-        Returns:
-            The maximum number of edges from root to leaf.
-        """
         return self._height(self._root)
 
-    # --- Traversal Methods (DFS) ---
-
     def preorder(self) -> list[T]:
-        """
-        Perform iterative preorder traversal (Root -> L -> R).
-
-        Returns:
-            A list of values in preorder sequence.
-        """
         if not self._root:
             return []
 
@@ -156,21 +115,9 @@ class BinarySearchTree[T: Comparable]:
         return result
 
     def inorder(self) -> list[T]:
-        """
-        Perform iterative inorder traversal (L -> Root -> R).
-
-        Returns:
-            A list of values in ascending order.
-        """
         return list(self)
 
     def postorder(self) -> list[T]:
-        """
-        Perform iterative postorder traversal (L -> R -> Root).
-
-        Returns:
-            A list of values in postorder sequence.
-        """
         stack: Stack[Node[T]] = Stack()
         result: list[T] = []
         current = self._root
@@ -190,15 +137,7 @@ class BinarySearchTree[T: Comparable]:
                 current = peek_node.right
         return result
 
-    # --- Traversal Methods (BFS) ---
-
     def bfs(self) -> list[T]:
-        """
-        Perform Breadth-First Search (level-order traversal).
-
-        Returns:
-            List of values level by level from top to bottom.
-        """
         if not self._root:
             return []
 
@@ -215,29 +154,44 @@ class BinarySearchTree[T: Comparable]:
                 queue.enqueue(node.right)
         return result
 
-    # --- Private Helpers ---
-
-    def _insert_recursive(self, node: Node[T], value: T) -> None:
-        """Helper to recursively find the insertion point."""
+    def _insert_recursive(self, node: Node[T], value: T) -> bool:
         if value < node.value:
             if node.left is None:
                 node.left = Node(value)
-            else:
-                self._insert_recursive(node.left, value)
+                return True
+            return self._insert_recursive(node.left, value)
         elif value > node.value:
             if node.right is None:
                 node.right = Node(value)
-            else:
-                self._insert_recursive(node.right, value)
+                return True
+            return self._insert_recursive(node.right, value)
+        return False
+
+    def _delete_recursive(self, node: Node[T] | None, value: T) -> Node[T] | None:
+        if node is None:
+            return None
+
+        if value < node.value:
+            node.left = self._delete_recursive(node.left, value)
+        elif value > node.value:
+            node.right = self._delete_recursive(node.right, value)
+        else:
+            if not node.left and not node.right:
+                return None
+            if not node.left:
+                return node.right
+            if not node.right:
+                return node.left
+
+            successor = node.right
+            while successor.left:
+                successor = successor.left
+            node.value = successor.value
+            node.right = self._delete_recursive(node.right, successor.value)
+
+        return node
 
     def _height(self, node: Node[T] | None) -> int:
-        """Helper to recursively calculate the depth of the tree."""
         if node is None:
             return 0
         return 1 + max(self._height(node.left), self._height(node.right))
-
-    def _size(self, node: Node[T] | None) -> int:
-        """Helper to recursively count nodes."""
-        if node is None:
-            return 0
-        return 1 + self._size(node.left) + self._size(node.right)
