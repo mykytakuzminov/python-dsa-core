@@ -94,6 +94,11 @@ def test_len(empty_queue, populated_queue):
     assert len(populated_queue) == NUM_ELEMENTS
 
 
+def test_repr(empty_queue, populated_queue):
+    assert repr(empty_queue) == "Queue([])"
+    assert repr(populated_queue) == f"Queue({TEST_DATA})"
+
+
 def test_str(empty_queue, populated_queue):
     assert str(empty_queue) == "[]"
     assert str(populated_queue) == f"{TEST_DATA}"

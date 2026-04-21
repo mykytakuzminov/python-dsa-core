@@ -114,6 +114,12 @@ def test_len(empty_hash_map, populated_hash_map):
     assert len(populated_hash_map) == NUM_ELEMENTS
 
 
+def test_repr(empty_hash_map, populated_hash_map):
+    assert repr(empty_hash_map) == "HashMap({})"
+    expected = "HashMap({0: 0, 8: 8, 1: 1, 9: 9, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7})"
+    assert repr(populated_hash_map) == expected
+
+
 def test_str(empty_hash_map, populated_hash_map):
     assert str(empty_hash_map) == "{}"
 

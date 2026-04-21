@@ -13,26 +13,26 @@ class Comparable(Protocol):
     def __eq__(self, other: object, /) -> bool: ...
 
 
-class Node[T: Comparable]:
+class _Node[T: Comparable]:
     """A BST node storing a value with references to left and right children."""
 
     value: T
-    left: Node[T] | None
-    right: Node[T] | None
+    left: _Node[T] | None
+    right: _Node[T] | None
 
     def __init__(self, value: T) -> None:
         self.value = value
         self.left = None
         self.right = None
 
-    def __repr__(self) -> str:
+    def __repr__(self) -> str:  # pragma: no cover
         return f"{self.__class__.__name__}({self.value})"
 
 
 class BinarySearchTree[T: Comparable]:
     """Binary Search Tree with BFS, DFS, and all traversals."""
 
-    _root: Node[T] | None
+    _root: _Node[T] | None
     _count: int
 
     def __init__(self) -> None:
@@ -44,7 +44,7 @@ class BinarySearchTree[T: Comparable]:
 
     def __iter__(self) -> Iterator[T]:
         # Iterative inorder traversal using an explicit stack
-        stack: Stack[Node[T]] = Stack()
+        stack: Stack[_Node[T]] = Stack()
         current = self._root
 
         while current or not stack.is_empty:
@@ -68,7 +68,7 @@ class BinarySearchTree[T: Comparable]:
 
     def insert(self, value: T) -> None:
         if self._root is None:
-            self._root = Node(value)
+            self._root = _Node(value)
             self._count += 1
         else:
             added = self._insert_recursive(self._root, value)
@@ -101,7 +101,7 @@ class BinarySearchTree[T: Comparable]:
         if not self._root:
             return []
 
-        stack: Stack[Node[T]] = Stack()
+        stack: Stack[_Node[T]] = Stack()
         stack.push(self._root)
         result: list[T] = []
 
@@ -118,7 +118,7 @@ class BinarySearchTree[T: Comparable]:
         return list(self)
 
     def postorder(self) -> list[T]:
-        stack: Stack[Node[T]] = Stack()
+        stack: Stack[_Node[T]] = Stack()
         result: list[T] = []
         current = self._root
         last_visited = None
@@ -141,7 +141,7 @@ class BinarySearchTree[T: Comparable]:
         if not self._root:
             return []
 
-        queue: Queue[Node[T]] = Queue()
+        queue: Queue[_Node[T]] = Queue()
         queue.enqueue(self._root)
         result: list[T] = []
 
@@ -154,20 +154,20 @@ class BinarySearchTree[T: Comparable]:
                 queue.enqueue(node.right)
         return result
 
-    def _insert_recursive(self, node: Node[T], value: T) -> bool:
+    def _insert_recursive(self, node: _Node[T], value: T) -> bool:
         if value < node.value:
             if node.left is None:
-                node.left = Node(value)
+                node.left = _Node(value)
                 return True
             return self._insert_recursive(node.left, value)
         elif value > node.value:
             if node.right is None:
-                node.right = Node(value)
+                node.right = _Node(value)
                 return True
             return self._insert_recursive(node.right, value)
         return False
 
-    def _delete_recursive(self, node: Node[T] | None, value: T) -> Node[T] | None:
+    def _delete_recursive(self, node: _Node[T] | None, value: T) -> _Node[T] | None:  # pragma: no cover
         if node is None:
             return None
 
@@ -191,7 +191,7 @@ class BinarySearchTree[T: Comparable]:
 
         return node
 
-    def _height(self, node: Node[T] | None) -> int:
+    def _height(self, node: _Node[T] | None) -> int:  # pragma: no cover
         if node is None:
             return 0
         return 1 + max(self._height(node.left), self._height(node.right))

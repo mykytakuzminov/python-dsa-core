@@ -137,6 +137,11 @@ def test_len(empty_list, populated_list):
     assert len(populated_list) == NUM_ELEMENTS
 
 
+def test_repr(empty_list, populated_list):
+    assert repr(empty_list) == "SinglyLinkedList([])"
+    assert repr(populated_list) == f"SinglyLinkedList({TEST_DATA})"
+
+
 def test_str(empty_list, populated_list):
     assert str(empty_list) == "[]"
     assert str(populated_list) == f"{TEST_DATA}"

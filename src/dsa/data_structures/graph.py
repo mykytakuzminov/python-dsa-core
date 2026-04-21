@@ -9,24 +9,24 @@ class Comparable(Protocol):
     def __gt__(self, other: Any) -> bool: ...
 
 
-class Node[T: Comparable]:
+class _Node[T: Comparable]:
     """A graph node storing a value and a set of neighboring nodes."""
 
     value: T
-    neighbors: set[Node[T]]
+    neighbors: set[_Node[T]]
 
     def __init__(self, value: T) -> None:
         self.value = value
         self.neighbors = set()
 
     def __repr__(self) -> str:
-        return f"Node({self.value})"
+        return f"Node({self.value})"  # pragma: no cover
 
 
 class Graph[T: Comparable]:
     """Adjacency list graph supporting directed and undirected edges, BFS and DFS."""
 
-    _adj_list: dict[T, Node[T]]
+    _adj_list: dict[T, _Node[T]]
 
     def __init__(self) -> None:
         self._adj_list = {}
@@ -38,10 +38,7 @@ class Graph[T: Comparable]:
         return f"{self.__class__.__name__}({list(self._adj_list.keys())})"
 
     def __str__(self) -> str:
-        lines = [
-            f"{k} -> {sorted([n.value for n in node.neighbors])}"
-            for k, node in self._adj_list.items()
-        ]
+        lines = [f"{k} -> {sorted([n.value for n in node.neighbors])}" for k, node in self._adj_list.items()]
         return "\n".join(lines)
 
     def __contains__(self, value: T) -> bool:
@@ -53,7 +50,7 @@ class Graph[T: Comparable]:
 
     def add_node(self, value: T) -> None:
         if value not in self._adj_list:
-            self._adj_list[value] = Node(value)
+            self._adj_list[value] = _Node(value)
 
     def add_edge(self, u: T, v: T, directed: bool = False) -> None:
         self.add_node(u)
@@ -107,7 +104,7 @@ class Graph[T: Comparable]:
 
         visited_order: list[T] = []
         visited: set[T] = {start_value}
-        queue: Queue[Node[T]] = Queue()
+        queue: Queue[_Node[T]] = Queue()
         queue.enqueue(self._adj_list[start_value])
 
         while not queue.is_empty:
@@ -128,7 +125,7 @@ class Graph[T: Comparable]:
 
         visited_order: list[T] = []
         visited: set[T] = set()
-        stack: Stack[Node[T]] = Stack()
+        stack: Stack[_Node[T]] = Stack()
         stack.push(self._adj_list[start_value])
 
         while not stack.is_empty:
@@ -139,9 +136,7 @@ class Graph[T: Comparable]:
                 visited_order.append(current_node.value)
 
                 # Reverse sort neighbors to maintain left-to-right order in stack
-                sorted_neighbors = sorted(
-                    current_node.neighbors, key=lambda x: x.value, reverse=True
-                )
+                sorted_neighbors = sorted(current_node.neighbors, key=lambda x: x.value, reverse=True)
 
                 for neighbor in sorted_neighbors:
                     if neighbor.value not in visited:

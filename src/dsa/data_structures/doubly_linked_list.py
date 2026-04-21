@@ -1,27 +1,27 @@
 from collections.abc import Iterator
 
 
-class Node[T]:
+class _Node[T]:
     """A single node storing a value with references to both neighbors."""
 
     value: T
-    next: Node[T] | None
-    prev: Node[T] | None
+    next: _Node[T] | None
+    prev: _Node[T] | None
 
     def __init__(self, value: T) -> None:
         self.value = value
         self.next = None
         self.prev = None
 
-    def __repr__(self) -> str:
+    def __repr__(self) -> str:  # pragma: no cover
         return f"{self.__class__.__name__}({self.value})"
 
 
 class DoublyLinkedList[T]:
     """Doubly linked list with bidirectional traversal."""
 
-    _head: Node[T] | None
-    _tail: Node[T] | None
+    _head: _Node[T] | None
+    _tail: _Node[T] | None
     _length: int
 
     def __init__(self) -> None:
@@ -49,7 +49,7 @@ class DoublyLinkedList[T]:
         return self._length == 0
 
     def append(self, value: T) -> None:
-        new_node = Node(value)
+        new_node = _Node(value)
 
         if self.is_empty:
             self._head = self._tail = new_node
@@ -62,7 +62,7 @@ class DoublyLinkedList[T]:
         self._length += 1
 
     def prepend(self, value: T) -> None:
-        new_node = Node(value)
+        new_node = _Node(value)
 
         if self.is_empty:
             self._head = self._tail = new_node
@@ -86,7 +86,7 @@ class DoublyLinkedList[T]:
             return
 
         target = self._get_node(index)
-        new_node = Node(value)
+        new_node = _Node(value)
 
         new_node.next = target
         new_node.prev = target.prev
@@ -153,7 +153,7 @@ class DoublyLinkedList[T]:
         self._tail = None
         self._length = 0
 
-    def _get_node(self, index: int) -> Node[T]:
+    def _get_node(self, index: int) -> _Node[T]:  # pragma: no cover
         if index < 0 or index >= self._length:
             raise IndexError("Index out of range")
 

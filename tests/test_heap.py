@@ -123,3 +123,13 @@ def test_clear(populated_max, populated_min):
     assert populated_max.is_empty
     assert len(populated_min) == 0
     assert populated_min.is_empty
+
+
+def test_repr(empty_max, populated_max):
+    assert repr(empty_max) == "MaxHeap([])"
+    assert repr(populated_max) == "MaxHeap([25, 12, 12, 8, -2, 0, 7, -3, 5, -10])"
+
+
+def test_str(empty_max, populated_max):
+    assert str(empty_max) == "[]"
+    assert str(populated_max) == "[25, 12, 12, 8, -2, 0, 7, -3, 5, -10]"

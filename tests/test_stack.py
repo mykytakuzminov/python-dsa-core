@@ -82,6 +82,11 @@ def test_len(empty_stack, populated_stack):
     assert len(populated_stack) == NUM_ELEMENTS
 
 
+def test_repr(empty_stack, populated_stack):
+    assert repr(empty_stack) == "Stack([])"
+    assert repr(populated_stack) == f"Stack({TEST_DATA})"
+
+
 def test_str(empty_stack, populated_stack):
     assert str(empty_stack) == "[]"
     assert str(populated_stack) == f"{TEST_DATA}"

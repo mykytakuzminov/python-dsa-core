@@ -135,3 +135,11 @@ def test_postorder_traversal(populated_tree, empty_tree):
 def test_bfs_traversal(populated_tree, empty_tree):
     assert populated_tree.bfs() == EXPECTED_LEVEL_ORDER
     assert empty_tree.bfs() == []
+
+
+def test_repr(populated_tree):
+    assert repr(populated_tree) == "BinarySearchTree([20, 30, 40, 50, 60, 70, 80])"
+
+
+def test_str(populated_tree):
+    assert str(populated_tree) == "[20, 30, 40, 50, 60, 70, 80]"

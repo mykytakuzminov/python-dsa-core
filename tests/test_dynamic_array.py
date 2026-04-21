@@ -93,6 +93,13 @@ def test_insert_at_end(populated_array):
     assert len(populated_array) == NUM_ELEMENTS + 1
 
 
+def test_insert_resize_capacity(empty_array):
+    assert empty_array.capacity == 1
+    for i in range(3):
+        empty_array.insert(0, i)
+    assert empty_array.capacity == 4
+
+
 def test_insert_out_of_bounds(populated_array):
     with pytest.raises(IndexError):
         populated_array.insert(NUM_ELEMENTS + 1, 99)

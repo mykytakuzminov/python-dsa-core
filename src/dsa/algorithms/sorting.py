@@ -72,9 +72,7 @@ def counting_sort(arr: list[int]) -> None:
             count -= 1
 
 
-def _merge_sort_helper[T: Comparable](
-    arr: list[T], left: int, mid: int, right: int
-) -> None:
+def _merge_sort_helper[T: Comparable](arr: list[T], left: int, mid: int, right: int) -> None:
     L = arr[left : mid + 1]
     R = arr[mid + 1 : right + 1]
 
