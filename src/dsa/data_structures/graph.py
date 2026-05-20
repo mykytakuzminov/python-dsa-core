@@ -38,7 +38,10 @@ class Graph[T: Comparable]:
         return f"{self.__class__.__name__}({list(self._adj_list.keys())})"
 
     def __str__(self) -> str:
-        lines = [f"{k} -> {sorted([n.value for n in node.neighbors])}" for k, node in self._adj_list.items()]
+        lines = [
+            f"{k} -> {sorted([n.value for n in node.neighbors])}"
+            for k, node in self._adj_list.items()
+        ]
         return "\n".join(lines)
 
     def __contains__(self, value: T) -> bool:
@@ -136,7 +139,9 @@ class Graph[T: Comparable]:
                 visited_order.append(current_node.value)
 
                 # Reverse sort neighbors to maintain left-to-right order in stack
-                sorted_neighbors = sorted(current_node.neighbors, key=lambda x: x.value, reverse=True)
+                sorted_neighbors = sorted(
+                    current_node.neighbors, key=lambda x: x.value, reverse=True
+                )
 
                 for neighbor in sorted_neighbors:
                     if neighbor.value not in visited:

@@ -167,7 +167,9 @@ class BinarySearchTree[T: Comparable]:
             return self._insert_recursive(node.right, value)
         return False
 
-    def _delete_recursive(self, node: _Node[T] | None, value: T) -> _Node[T] | None:  # pragma: no cover
+    def _delete_recursive(
+        self, node: _Node[T] | None, value: T
+    ) -> _Node[T] | None:  # pragma: no cover
         if node is None:
             return None
 
